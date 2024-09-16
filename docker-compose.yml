@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Service
+  db:
+    image: postgres:13
+    container_name: postgres_container
+    env_file:
+      - ./env/local.env  # Use env file for database credentials
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persistent storage for the database
+    ports:
+      - "5432:5432"  # Expose PostgreSQL
+    networks:
+      - backend-network
+
+  # FastAPI Backend Service
+  backend:
+    build:
+      context: ./backend
+    container_name: fastapi_container
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db  # Ensure PostgreSQL starts first
+    networks:
+      - backend-network
+
+  # Redis Service
+  redis:
+    image: "redis:alpine"  # Use a lightweight Redis image
+    container_name: redis_container
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data  # Persist Redis data
+    networks:
+      - backend_network
+
+    migrate:
+    build: ./migrate
+    environment:
+      - DATABASE_URL=postgres://youruser:yourpassword@postgres:5432/yourdb
+    command: ["go", "run", "main.go"]  # Only run when manually triggered
+
+  populate:
+    build: ./populate
+    environment:
+      - DATABASE_URL=postgres://youruser:yourpassword@postgres:5432/yourdb
+    command: ["go", "run", "main.go"]  # Only run when manually triggered
+
+
+volumes:
+  postgres_data:
+  redis_data:
+
+
+# Docker network to allow services to communicate
+networks:
+  backend-network:

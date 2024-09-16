@@ -1,0 +1,87 @@
+SocketType: LGA1151
+RamType: 4
+CPUs:
+  - Name: Intel Core i5-9400F
+    GenSeries: 9th Gen
+    Brand: Intel
+    Family: Core i5
+    PowerDraw: 65.0
+    AvgMarketPrice: 150.00
+    PerformanceRating: 7.5
+    SupportLifetime: 5.0
+  - Name: Intel Core i7-9700K
+    GenSeries: 9th Gen
+    Brand: Intel
+    Family: Core i7
+    PowerDraw: 95.0
+    AvgMarketPrice: 350.00
+    PerformanceRating: 9.0
+    SupportLifetime: 6.0
+Mobos:
+  - Name: Gigabyte Z390 AORUS
+    Overclocking: true
+    PCIELaneSupport: 16
+    PowerConstrainedCPUs: Intel Core i5-9400F
+  - Name: ASUS Prime Z390
+    Overclocking: false
+    PCIELaneSupport: 16
+    PowerConstrainedCPUs: 
+
+SocketType: AM4
+RamType: 5
+CPUs:
+  - Name: AMD Ryzen 5 3600
+    GenSeries: Zen 2
+    Brand: AMD
+    Family: Ryzen 5
+    PowerDraw: 65.0
+    AvgMarketPrice: 200.00
+    PerformanceRating: 8.0
+    SupportLifetime: 5.0
+  - Name: AMD Ryzen 7 3700X
+    GenSeries: Zen 2
+    Brand: AMD
+    Family: Ryzen 7
+    PowerDraw: 95.0
+    AvgMarketPrice: 320.00
+    PerformanceRating: 9.0
+    SupportLifetime: 6.0
+Mobos:
+  - Name: MSI B450 TOMAHAWK MAX
+    Overclocking: true
+    PCIELaneSupport: 16
+    PowerConstrainedCPUs: 
+  - Name: ASUS ROG Strix B550-F
+    Overclocking: true
+    PCIELaneSupport: 16
+    PowerConstrainedCPUs: 
+
+GPUs:
+  - Name: NVIDIA RTX 3080
+    Brand: NVIDIA
+    PowerConnection: 2x8-pin
+    PowerDraw: 320.0
+    PerformanceRating: 9.5
+    PCIELaneRequirement: 16
+    SupportLifetime: 5.0
+  - Name: AMD Radeon RX 6800 XT
+    Brand: AMD
+    PowerConnection: 2x8-pin
+    PowerDraw: 300.0
+    PerformanceRating: 9.2
+    PCIELaneRequirement: 16
+    SupportLifetime: 5.0
+  - Name: NVIDIA GTX 1660 Super
+    Brand: NVIDIA
+    PowerConnection: 1x8-pin
+    PowerDraw: 125.0
+    PerformanceRating: 6.5
+    PCIELaneRequirement: 8
+    SupportLifetime: 4.0
+  - Name: AMD Radeon RX 5700 XT
+    Brand: AMD
+    PowerConnection: 1x8-pin, 1x6-pin
+    PowerDraw: 225.0
+    PerformanceRating: 8.5
+    PCIELaneRequirement: 16
+    SupportLifetime: 5.0
