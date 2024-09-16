@@ -143,6 +143,23 @@ func main() {
 				return nil
 			},
 		},
+		{
+			ID: "20230917_create_sales_tables",
+			Migrate: func(tx *gorm.DB) error {
+				// AutoMigrate to create the new sales tables for CPU, Mobo, and GPU
+				if err := tx.AutoMigrate(&models.CPUSaleRecord{}, &models.MoboSaleRecord{}, &models.GPUSaleRecord{}); err != nil {
+					return err
+				}
+				return nil
+			},
+			Rollback: func(tx *gorm.DB) error {
+				// Drop the sales tables in case of rollback
+				if err := tx.Migrator().DropTable("cpu_sale_records", "mobo_sale_records", "gpu_sale_records"); err != nil {
+					return err
+				}
+				return nil
+			},
+		},
 	}
 
 	// Initialize gormigrate with version control

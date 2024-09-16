@@ -1,0 +1,7 @@
+# Ignore Docker containers and volumes
+**/node_modules
+**/vendor
+**/dist
+docker-compose.override.yml
+# Ignore sensitive files
+.env
