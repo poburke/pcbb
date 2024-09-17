@@ -44,6 +44,7 @@ type Mobo struct {
 	gorm.Model
 	SocketTypeID         uint             `gorm:"not null" json:"socket_type_id"`          // Foreign key to relate to SocketType
 	Name                 string           `gorm:"type:text" json:"name"`                   // Name of the Mobo
+	GenSeries            []string         `gorm:"type:text[]" json:"gen_series"`           // Array of compatible CPU generations or series
 	Overclocking         *bool            `gorm:"type:bool" json:"overclocking"`           // Whether the motherboard supports overclocking (nullable)
 	PCIELaneSupport      int              `gorm:"type:int" json:"pcie_lane_support"`       // Number of PCIe lanes supported
 	PowerConstrainedCPUs string           `gorm:"type:text" json:"power_constrained_cpus"` // List of power-constrained CPUs (nullable, now a single string)

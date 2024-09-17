@@ -160,6 +160,29 @@ func main() {
 				return nil
 			},
 		},
+		{
+			ID: "20240916_add_gen_series_column_to_mobo", // Unique migration ID
+			Migrate: func(tx *gorm.DB) error {
+				// Add the GenSeries column as a text array to the Mobo table
+				err := tx.Exec(`
+					ALTER TABLE mobos ADD COLUMN IF NOT EXISTS gen_series text[];
+				`).Error
+				if err != nil {
+					return err
+				}
+				return nil
+			},
+			Rollback: func(tx *gorm.DB) error {
+				// Remove the GenSeries column if rolling back
+				err := tx.Exec(`
+					ALTER TABLE mobos DROP COLUMN IF EXISTS gen_series;
+				`).Error
+				if err != nil {
+					return err
+				}
+				return nil
+			},
+		},
 	}
 
 	// Initialize gormigrate with version control
