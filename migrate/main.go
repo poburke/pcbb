@@ -183,6 +183,82 @@ func main() {
 				return nil
 			},
 		},
+		{
+			ID: "20230918_add_user_pcbuild_and_listing_tables", // Unique migration ID
+			Migrate: func(tx *gorm.DB) error {
+				// Create the new User, PCBuild, and Listing tables
+				if err := tx.AutoMigrate(&models.User{}, &models.PCBuild{}, &models.Listing{}); err != nil {
+					return err
+				}
+				return nil
+			},
+			Rollback: func(tx *gorm.DB) error {
+				// Drop the new tables in case of rollback
+				if err := tx.Migrator().DropTable("users", "pc_builds", "listings"); err != nil {
+					return err
+				}
+				return nil
+			},
+		},
+		{
+			ID: "20230918_add_component_tables_and_listing_records",
+			Migrate: func(tx *gorm.DB) error {
+				// Create SocketType and related CPU and Mobo tables
+				if err := tx.AutoMigrate(&models.SocketType{}, &models.CPU{}, &models.Mobo{}, &models.GPU{}); err != nil {
+					return err
+				}
+
+				// Create new component tables (PowerSupply, Memory, Case, Storage)
+				if err := tx.AutoMigrate(&models.PowerSupply{}, &models.Memory{}, &models.Case{}, &models.Storage{}); err != nil {
+					return err
+				}
+
+				// Create new listing record tables for each component
+				if err := tx.AutoMigrate(
+					&models.CPUListingRecord{},
+					&models.MoboListingRecord{},
+					&models.GPUListingRecord{},
+					&models.PowerSupplyListingRecord{},
+					&models.MemoryListingRecord{},
+					&models.CaseListingRecord{},
+					&models.StorageListingRecord{},
+				); err != nil {
+					return err
+				}
+
+				// Create user and PCBuild tables
+				if err := tx.AutoMigrate(&models.User{}, &models.PCBuild{}, &models.Listing{}); err != nil {
+					return err
+				}
+
+				return nil
+			},
+			Rollback: func(tx *gorm.DB) error {
+				// Drop the newly added component and listing record tables on rollback
+				if err := tx.Migrator().DropTable(
+					"power_supplies",
+					"memories",
+					"cases",
+					"storages",
+					"cpu_listing_records",
+					"mobo_listing_records",
+					"gpu_listing_records",
+					"power_supply_listing_records",
+					"memory_listing_records",
+					"case_listing_records",
+					"storage_listing_records",
+				); err != nil {
+					return err
+				}
+
+				// Drop the user and PCBuild tables
+				if err := tx.Migrator().DropTable("users", "pc_builds", "listings"); err != nil {
+					return err
+				}
+
+				return nil
+			},
+		},
 	}
 
 	// Initialize gormigrate with version control
